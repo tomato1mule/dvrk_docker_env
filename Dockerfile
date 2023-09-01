@@ -71,6 +71,12 @@ RUN . /opt/ros/melodic/setup.sh && \
 
 RUN apt update &&  \
     DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends  \
-    lshw
+    lshw udev
 
+RUN mkdir -p /etc/udev/rules.d  &&  \
+    echo 'KERNEL=="fw*", GROUP="fpgaqla", MODE="0666"' > ~/80-firewire-all.rules &&  \
+    mv ~/80-firewire-all.rules /etc/udev/rules.d/80-firewire-all.rules  &&  \
+    addgroup fpgaqla  
+
+# RUN udevadm control --reload-rules
     
